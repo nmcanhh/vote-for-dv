@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bình chọn cho Đen Vâu by Đen Vâu FC</title>
-
     <style>
       #callAPIBtn {
         background-color: red;
@@ -16,17 +15,55 @@
       }
 
       .container {
+        margin-top: 30px;
         display: flex;
         justify-content: center;
+        flex-direction: column;
         align-items: center;
-        height: 100vh;
+        height: 200px;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f2f2f2;
       }
     </style>
   </head>
   <body>
     <div class="container">
+      <br />
+      <h2>➡️➡️ Bình chọn cho Đen Vâu ⬅️⬅️</h2>
+      <h2 style="text-align: center">GƯƠNG MẶT TRẺ VIỆT NAM TIÊU BIỂU 2023</h2>
+      <span>⚠️ Mỗi thiết bị chỉ được vote 1 lần</span>
+      <br />
       <button id="callAPIBtn">Bình chọn</button>
+      <br />
+      <br />
     </div>
+
+    <h2 style="text-align: center">📉 Kết quả bình chọn</h2>
+    <table id="dataTable" style="display: none">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên đầy đủ</th>
+          <th>Số lượt bình chọn</th>
+          <th>Tỷ lệ phần trăm</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
     <script>
       document
@@ -57,11 +94,38 @@
           xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
               alert("Bình chọn thành công")
+              location.reload()
             }
           }
 
           xhr.send(params)
         })
+
+      // Gọi API và hiển thị dữ liệu trong bảng
+      fetch(
+        "https://dbnd.e.hemera.com.vn/api/v1/tpo-gmtb-youths/voting-results?awardYear=2023"
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          var tableBody = document.querySelector("#dataTable tbody")
+
+          data.forEach(function (item, index) {
+            var row = tableBody.insertRow()
+            var cellIndex = row.insertCell(0)
+            var cellFullName = row.insertCell(1)
+            var cellCount = row.insertCell(2)
+            var cellPercent = row.insertCell(3)
+
+            cellIndex.textContent = index + 1
+            cellFullName.textContent = item.fullName
+            cellCount.textContent = item.count
+            cellPercent.textContent = item.percent + "%"
+          })
+
+          // Hiển thị bảng sau khi dữ liệu đã được tải
+          document.getElementById("dataTable").style.display = "table"
+        })
+        .catch((error) => console.error("Lỗi:", error))
     </script>
   </body>
 </html>
