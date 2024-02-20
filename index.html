@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bình chọn cho Đen Vâu by Đen Vâu FC</title>
+
+    <style>
+      #callAPIBtn {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <button id="callAPIBtn">Bình chọn</button>
+    </div>
+
+    <script>
+      document
+        .getElementById("callAPIBtn")
+        .addEventListener("click", function () {
+          var xhr = new XMLHttpRequest()
+          var url = "https://dbnd.e.hemera.com.vn/api/v1/tpo-gmtb-voting"
+          var params = JSON.stringify({
+            youthIds: [
+              "60fcd2a7-8331-46d7-aeaa-7e812f6e5fbb",
+              "c60b48ee-51e7-432d-8f73-ee185ee95237",
+              "9502e54d-0a2e-43ec-9ac6-4f6de4202421",
+              "78e7f073-2ffa-43dc-9956-b34c6f65fded",
+              "c68c075f-4404-4d14-8c36-4bc1f6ddc6af",
+              "10ed58a3-efe1-4022-bc41-3b11c779f772",
+              "43e49451-1726-4b85-b046-8e679fe306d9",
+              "5c83a541-3331-493f-a083-77c1b7380fbf",
+              "a6e6d4ff-7bab-45d5-a3c7-09d79e32f832",
+              "a4580486-f1a2-4575-b680-36037586d1a3",
+            ],
+            captchaToken: "",
+          })
+
+          xhr.open("POST", url, true)
+
+          xhr.setRequestHeader("Content-Type", "application/json")
+
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              alert("Bình chọn thành công")
+            }
+          }
+
+          xhr.send(params)
+        })
+    </script>
+  </body>
+</html>
